@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Google_Sans, Roboto_Serif, Roboto_Mono } from "next/font/google";
 
+import { Toaster } from "sonner";
 import { LenisProvider } from "@/components/providers/lenis-provider";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 import "./globals.css";
 
@@ -37,7 +39,12 @@ export default function RootLayout({
       className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <LenisProvider>{children}</LenisProvider>
+        <LenisProvider>
+          <TooltipProvider>
+            {children}
+            <Toaster position="top-center" />
+          </TooltipProvider>
+        </LenisProvider>
       </body>
     </html>
   );
