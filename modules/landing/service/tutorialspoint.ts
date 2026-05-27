@@ -15,7 +15,7 @@ export async function downloadTopic(name: string): Promise<void> {
   );
 
   if (!res.ok) {
-    const data = await res.json().catch(() => ({})) as { error?: string };
+    const data = (await res.json().catch(() => ({}))) as { error?: string };
     throw new Error(data.error ?? `Download failed (${res.status})`);
   }
 
@@ -26,4 +26,29 @@ export async function downloadTopic(name: string): Promise<void> {
   anchor.download = `${name}.pdf`;
   anchor.click();
   URL.revokeObjectURL(url);
+}
+
+export async function downloadZip(names: string[]): Promise<{ failed: string[] }> {
+  const topics = names.map(encodeURIComponent).join(",");
+  const res = await fetch(`/api/tutorialspoint/zip?topics=${topics}`);
+
+  if (!res.ok) {
+    const data = (await res.json().catch(() => ({}))) as { error?: string };
+    throw new Error(data.error ?? `ZIP download failed (${res.status})`);
+  }
+
+  const failed = (res.headers.get("X-Failed-Topics") ?? "")
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = "tutorials.zip";
+  anchor.click();
+  URL.revokeObjectURL(url);
+
+  return { failed };
 }

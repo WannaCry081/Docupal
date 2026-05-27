@@ -12,7 +12,7 @@ import { QueueItem } from "./queue-item";
 
 export const QueuePanel = () => {
   const { topics, clearTopics } = useTopicStore();
-  const { downloadAll, isDownloading, progress, canDownload } = useDownloadAll();
+  const { downloadAll, isDownloading, canDownload } = useDownloadAll();
 
   const handleClear = () => {
     clearTopics();
@@ -63,7 +63,7 @@ export const QueuePanel = () => {
           >
             <DownloadIcon className="size-3.5" />
             <span className="hidden sm:block">
-              {progress ? `${progress.current}/${progress.total}` : "Download All"}
+              {isDownloading ? "Building ZIP…" : "Download ZIP"}
             </span>
           </Button>
         </div>

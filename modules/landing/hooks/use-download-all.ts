@@ -3,19 +3,13 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { downloadTopic } from "../service/tutorialspoint";
+import { downloadZip } from "../service/tutorialspoint";
 import useTopicStore from "../store/topic-store";
-
-interface DownloadProgress {
-  current: number;
-  total: number;
-}
 
 export function useDownloadAll() {
   const { topics } = useTopicStore();
   const verifiedTopics = topics.filter((t) => t.status === "verified");
   const [isDownloading, setIsDownloading] = useState(false);
-  const [progress, setProgress] = useState<DownloadProgress | null>(null);
 
   const downloadAll = async () => {
     if (verifiedTopics.length === 0) {
@@ -24,40 +18,39 @@ export function useDownloadAll() {
     }
 
     setIsDownloading(true);
-    const total = verifiedTopics.length;
-    let failed = 0;
+    const count = verifiedTopics.length;
+    const toastId = toast.loading(
+      `Building ZIP for ${count} PDF${count > 1 ? "s" : ""}…`,
+    );
 
-    for (let i = 0; i < total; i++) {
-      const topic = verifiedTopics[i];
-      setProgress({ current: i + 1, total });
-      const toastId = toast.loading(`Downloading ${i + 1} of ${total}: ${topic.name}…`);
+    try {
+      const { failed } = await downloadZip(verifiedTopics.map((t) => t.name));
+      const succeeded = count - failed.length;
 
-      try {
-        await downloadTopic(topic.name);
-        toast.success(`Downloaded: ${topic.name}`, { id: toastId });
-      } catch (err) {
-        failed++;
-        toast.error(
-          `Failed: ${topic.name} — ${err instanceof Error ? err.message : "Unknown error"}`,
+      if (failed.length === 0) {
+        toast.success(
+          `Downloaded ZIP with ${count} PDF${count > 1 ? "s" : ""}`,
+          { id: toastId },
+        );
+      } else {
+        toast.warning(
+          `ZIP downloaded — ${succeeded} of ${count} succeeded. Failed: ${failed.join(", ")}`,
           { id: toastId },
         );
       }
-    }
-
-    setIsDownloading(false);
-    setProgress(null);
-
-    if (failed === 0) {
-      toast.success(`All ${total} PDF${total > 1 ? "s" : ""} downloaded successfully`);
-    } else {
-      toast.warning(`${total - failed} of ${total} downloads succeeded`);
+    } catch (err) {
+      toast.error(
+        err instanceof Error ? err.message : "ZIP download failed",
+        { id: toastId },
+      );
+    } finally {
+      setIsDownloading(false);
     }
   };
 
   return {
     downloadAll,
     isDownloading,
-    progress,
     canDownload: verifiedTopics.length > 0,
   };
 }
