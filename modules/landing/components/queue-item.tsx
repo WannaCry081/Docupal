@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { toast } from "sonner";
-import { DownloadIcon, TrashIcon } from "lucide-react";
+import { CopyCheckIcon, CopyIcon, DownloadIcon, TrashIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -23,10 +24,19 @@ interface QueueItemProps {
 
 export const QueueItem = ({ sequence, topic }: QueueItemProps) => {
   const { removeTopic } = useTopicStore();
+  const [copied, setCopied] = useState(false);
 
   const handleDownload = () => {
     downloadTopic(topic.name);
     toast.success(`Downloading "${topic.name}.pdf"`);
+  };
+
+  const handleCopyUrl = async () => {
+    if (!topic.url) return;
+    await navigator.clipboard.writeText(topic.url);
+    setCopied(true);
+    toast.success("URL copied to clipboard");
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const handleRemove = () => {
@@ -47,6 +57,26 @@ export const QueueItem = ({ sequence, topic }: QueueItemProps) => {
 
       <TooltipProvider>
         <div className="flex items-center gap-0.5 shrink-0">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                disabled={topic.status !== "verified"}
+                onClick={handleCopyUrl}
+                className="size-9 p-0"
+                aria-label={`Copy URL for ${topic.name}`}
+              >
+                {copied ? (
+                  <CopyCheckIcon className="size-3.5 text-primary" />
+                ) : (
+                  <CopyIcon className="size-3.5" />
+                )}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Copy URL</TooltipContent>
+          </Tooltip>
+
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
