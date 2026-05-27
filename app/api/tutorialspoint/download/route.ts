@@ -1,18 +1,7 @@
-import { z } from "zod";
-
 import type { NextRequest } from "next/server";
 
 import { TUTORIALSPOINT_URL } from "@/lib/constants/site-config";
-
-const topicSchema = z
-  .string()
-  .trim()
-  .min(1, "Topic is required")
-  .max(64, "Topic is too long")
-  .regex(
-    /^[a-zA-Z0-9_-]+$/,
-    "Topic may only contain letters, numbers, hyphens, and underscores",
-  );
+import { topicSchema } from "@/lib/schemas/topic";
 
 export async function GET(request: NextRequest) {
   const raw = request.nextUrl.searchParams.get("topic");
