@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Docupal
 
-## Getting Started
+![Docupal](./public/docupal-screenshot.png)
 
-First, run the development server:
+A simple web app for downloading TutorialsPoint PDFs — purpose-built to feed structured learning material into [NotebookLM](https://notebooklm.google.com/) and similar AI-powered study tools.
+
+## Overview
+
+TutorialsPoint has been a go-to resource for self-taught developers for years. Its tutorials are clear, structured, and beginner-friendly — exactly the kind of source that pairs well with AI notebooks like NotebookLM. The problem is getting those tutorials into a format you can actually upload.
+
+Docupal solves that. You type in a topic, it verifies the PDF exists, and you download it — one at a time or as a batch zip. No scraping, no extensions, no scripts. Just a clean interface over TutorialsPoint's publicly available PDF exports.
+
+## Features
+
+- **Topic queue** — Add multiple topics at once and manage them in a persistent queue
+- **PDF verification** — Checks the PDF signature before queueing to catch invalid topics early
+- **Single download** — Download any verified topic directly as a `.pdf` file
+- **Batch download** — Export the entire queue as a single `.zip` archive
+- **Retry support** — Re-queue topics that failed to resolve
+- **Persistent state** — Queue survives page refreshes via `localStorage`
+- **Dark mode** — System-aware theme with manual toggle
+- **Topic suggestions** — Curated list of popular TutorialsPoint topics to get started quickly
+
+## How It Works
+
+1. **Enter a topic** — Type the name of any TutorialsPoint tutorial (e.g., `python`, `react`, `sql`)
+2. **Verify** — Docupal fetches the first bytes of the PDF and checks for a valid PDF signature before adding it to your queue
+3. **Download** — Save individual PDFs or batch-export the whole queue as a zip
+
+All requests to TutorialsPoint are proxied through a Next.js API route, which handles redirects, validates the content type, and streams the file directly to your browser.
+
+## Installation
+
+**Prerequisites:** Node.js 18+, pnpm
+
+1. Clone the repository and install dependencies.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+git clone https://github.com/WannaCry081/docupal.git
+cd docupal
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Open [http://localhost:3000](http://localhost:3000) in your browser and start downloading topics.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Contributing
 
-## Learn More
+Contributions are welcome. To get started:
 
-To learn more about Next.js, take a look at the following resources:
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feat/your-feature`
+3. Commit your changes: `git commit -m "feat: add your feature"`
+4. Push to your branch: `git push origin feat/your-feature`
+5. Open a pull request
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Please keep pull requests focused and scoped to a single concern.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[MIT](./LICENSE)
