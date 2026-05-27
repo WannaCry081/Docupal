@@ -17,7 +17,7 @@ import useTopicStore from "../store/topic-store";
 
 export const TopicSelector = () => {
   const [input, setInput] = useState("");
-  const { topics, addTopic, updateTopic } = useTopicStore();
+  const { topics, addTopic, updateTopic, removeTopic } = useTopicStore();
 
   const handleAddAndVerify = async () => {
     const name = input.trim().toLowerCase();
@@ -46,10 +46,12 @@ export const TopicSelector = () => {
       } else {
         updateTopic(id, { status: "not-found" });
         toast.error(data.error ?? `"${name}" PDF not found`, { id });
+        setTimeout(() => removeTopic(id), 5000);
       }
     } catch {
       updateTopic(id, { status: "not-found" });
       toast.error(`Failed to verify "${name}"`, { id });
+      setTimeout(() => removeTopic(id), 5000);
     }
   };
 
@@ -61,7 +63,10 @@ export const TopicSelector = () => {
             placeholder="Tutorialspoint topic"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleAddAndVerify()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleAddAndVerify();
+              if (e.key === "Escape") setInput("");
+            }}
           />
           <InputGroupAddon align="inline-end">
             <InputGroupButton
