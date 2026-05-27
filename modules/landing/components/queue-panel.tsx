@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { DownloadIcon, TrashIcon } from "lucide-react";
 import { toast } from "sonner";
 
@@ -13,21 +14,49 @@ import { QueueItem } from "./queue-item";
 export const QueuePanel = () => {
   const { topics, clearTopics } = useTopicStore();
   const verifiedTopics = topics.filter((t) => t.status === "verified");
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const handleClear = () => {
     clearTopics();
     toast.success("Queue cleared");
   };
 
-  const handleDownloadAll = () => {
+  const handleDownloadAll = async () => {
     if (verifiedTopics.length === 0) {
       toast.warning("No verified topics to download");
       return;
     }
-    verifiedTopics.forEach((topic) => downloadTopic(topic.name));
-    toast.success(
-      `Downloading ${verifiedTopics.length} PDF${verifiedTopics.length > 1 ? "s" : ""}`,
-    );
+
+    setIsDownloading(true);
+    const total = verifiedTopics.length;
+    let failed = 0;
+
+    for (let i = 0; i < total; i++) {
+      const topic = verifiedTopics[i];
+      const toastId = toast.loading(
+        `Downloading ${i + 1} of ${total}: ${topic.name}…`,
+      );
+      try {
+        await downloadTopic(topic.name);
+        toast.success(`Downloaded: ${topic.name}`, { id: toastId });
+      } catch (err) {
+        failed++;
+        toast.error(
+          `Failed: ${topic.name} — ${err instanceof Error ? err.message : "Unknown error"}`,
+          { id: toastId },
+        );
+      }
+    }
+
+    setIsDownloading(false);
+
+    if (failed === 0) {
+      toast.success(
+        `All ${total} PDF${total > 1 ? "s" : ""} downloaded successfully`,
+      );
+    } else {
+      toast.warning(`${total - failed} of ${total} downloads succeeded`);
+    }
   };
 
   return (
@@ -55,7 +84,7 @@ export const QueuePanel = () => {
             className="px-4"
             size="sm"
             onClick={handleDownloadAll}
-            disabled={verifiedTopics.length === 0}
+            disabled={verifiedTopics.length === 0 || isDownloading}
           >
             <DownloadIcon className="size-3.5" />
             <span className="hidden sm:block">Download All</span>
