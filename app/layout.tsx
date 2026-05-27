@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { Google_Sans, Roboto_Serif, Roboto_Mono } from "next/font/google";
 
 import { Toaster } from "sonner";
-import { LenisProvider } from "@/components/providers/lenis-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { LenisProvider } from "@/components/providers/lenis-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 
 import "./globals.css";
 
@@ -36,15 +37,23 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} h-full antialiased`}
+      className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} antialiased h-full`}
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
-        <LenisProvider>
-          <TooltipProvider>
-            {children}
-            <Toaster position="top-center" />
-          </TooltipProvider>
-        </LenisProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <LenisProvider>
+            <TooltipProvider>
+              {children}
+              <Toaster position="top-center" />
+            </TooltipProvider>
+          </LenisProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
