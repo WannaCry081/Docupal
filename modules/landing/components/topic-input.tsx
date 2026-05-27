@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 import { SUGGESTED_TOPIC_CONTENT } from "../constants/suggested-topic-content";
 import { getSuggestions } from "../constants/tutorialspoint-topics";
 import { useAddTopic } from "../hooks/use-add-topic";
-import { useIsMobile } from "../hooks/use-is-mobile";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useQueueUrlSync } from "../hooks/use-queue-url-sync";
 import { SuggestionList } from "./suggestion-list";
 
