@@ -15,6 +15,11 @@ import {
 export function ModeToggle() {
   const { setTheme } = useTheme();
 
+  const applyTheme = (theme: string) => {
+    setTheme(theme);
+    document.cookie = `theme=${theme};path=/;max-age=31536000;samesite=lax`;
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,13 +30,13 @@ export function ModeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
+        <DropdownMenuItem onClick={() => applyTheme("light")}>
           Light
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
+        <DropdownMenuItem onClick={() => applyTheme("dark")}>
           Dark
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
+        <DropdownMenuItem onClick={() => applyTheme("system")}>
           System
         </DropdownMenuItem>
       </DropdownMenuContent>

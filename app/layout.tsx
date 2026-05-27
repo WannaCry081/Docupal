@@ -29,6 +29,8 @@ export const metadata: Metadata = {
     "A small utility for grabbing tutorial PDFs from TutorialsPoint — with availability checks and a downloadable queue.",
 };
 
+const themeScript = `(function(){try{var m=document.cookie.match(/(?:^|;\\s*)theme=([^;]+)/);var t=m&&m[1];if(t==='dark')document.documentElement.classList.add('dark');else if(t==='light')document.documentElement.classList.remove('dark');}catch(e){}})()`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -41,6 +43,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} suppressHydrationWarning />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
