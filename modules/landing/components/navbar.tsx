@@ -11,9 +11,13 @@ export const NavBar = () => {
           href="/"
           className="inline-flex items-center text-center gap-2 font-bold"
         >
-          <span className="bg-primary size-6 inline-block rounded-xs text-background">
-            D
-          </span>
+          <Image
+            src="/SVG/icon.svg"
+            alt=""
+            width={24}
+            height={24}
+            aria-hidden="true"
+          />
           <span className="inline-block">Docupal</span>
         </Link>
 
