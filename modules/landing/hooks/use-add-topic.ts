@@ -6,7 +6,7 @@ import { verifyTopic } from "../service/tutorialspoint";
 import useTopicStore from "../store/topic-store";
 
 export function useAddTopic() {
-  const { topics, addTopic, updateTopic, removeTopic } = useTopicStore();
+  const { topics, addTopic, updateTopic } = useTopicStore();
 
   const addAndVerify = async (name: string) => {
     const topic = name.trim().toLowerCase();
@@ -34,12 +34,10 @@ export function useAddTopic() {
       } else {
         updateTopic(id, { status: "not-found" });
         toast.error(data.error ?? `"${topic}" PDF not found`, { id });
-        setTimeout(() => removeTopic(id), 5000);
       }
     } catch {
       updateTopic(id, { status: "not-found" });
       toast.error(`Failed to verify "${topic}"`, { id });
-      setTimeout(() => removeTopic(id), 5000);
     }
   };
 
