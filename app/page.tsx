@@ -75,7 +75,7 @@ export default function Page() {
                   collapsible
                   defaultValue={`item-${id}`}
                 >
-                  <AccordionItem value="item-1">
+                  <AccordionItem value={`item-${id}`}>
                     <AccordionTrigger className="underline-offset-4">
                       {title}
                     </AccordionTrigger>
