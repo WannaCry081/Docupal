@@ -17,6 +17,7 @@ export const Footer = async () => {
           © {currentYear} Docupal. All rights reserved.
         </div>
         <div className="inline-flex items-center gap-2">
+          <ModeToggle />
           <Link
             href={GITHUB_REPOSITORY_URL}
             className="opacity-60 transition-opacity hover:opacity-100"
@@ -31,7 +32,6 @@ export const Footer = async () => {
               className="size-5 dark:invert"
             />
           </Link>
-          <ModeToggle />
         </div>
       </div>
     </footer>

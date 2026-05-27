@@ -36,7 +36,7 @@ export default function Page() {
           </section>
         </FadeIn>
 
-        <FadeIn>
+        <FadeIn className="relative z-10">
           <TopicSelector />
         </FadeIn>
 

@@ -1,62 +1,27 @@
 "use client";
 
-import { useState } from "react";
-import { DownloadIcon, TrashIcon } from "lucide-react";
+import { DownloadIcon, Share2Icon, TrashIcon } from "lucide-react";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-import { downloadTopic } from "../service/tutorialspoint";
+import { useDownloadAll } from "../hooks/use-download-all";
 import useTopicStore from "../store/topic-store";
 import { QueueItem } from "./queue-item";
 
 export const QueuePanel = () => {
   const { topics, clearTopics } = useTopicStore();
-  const verifiedTopics = topics.filter((t) => t.status === "verified");
-  const [isDownloading, setIsDownloading] = useState(false);
+  const { downloadAll, isDownloading, progress, canDownload } = useDownloadAll();
 
   const handleClear = () => {
     clearTopics();
     toast.success("Queue cleared");
   };
 
-  const handleDownloadAll = async () => {
-    if (verifiedTopics.length === 0) {
-      toast.warning("No verified topics to download");
-      return;
-    }
-
-    setIsDownloading(true);
-    const total = verifiedTopics.length;
-    let failed = 0;
-
-    for (let i = 0; i < total; i++) {
-      const topic = verifiedTopics[i];
-      const toastId = toast.loading(
-        `Downloading ${i + 1} of ${total}: ${topic.name}…`,
-      );
-      try {
-        await downloadTopic(topic.name);
-        toast.success(`Downloaded: ${topic.name}`, { id: toastId });
-      } catch (err) {
-        failed++;
-        toast.error(
-          `Failed: ${topic.name} — ${err instanceof Error ? err.message : "Unknown error"}`,
-          { id: toastId },
-        );
-      }
-    }
-
-    setIsDownloading(false);
-
-    if (failed === 0) {
-      toast.success(
-        `All ${total} PDF${total > 1 ? "s" : ""} downloaded successfully`,
-      );
-    } else {
-      toast.warning(`${total - failed} of ${total} downloads succeeded`);
-    }
+  const handleShare = async () => {
+    await navigator.clipboard.writeText(window.location.href);
+    toast.success("Share link copied to clipboard");
   };
 
   return (
@@ -73,6 +38,16 @@ export const QueuePanel = () => {
             variant="outline"
             className="px-4"
             size="sm"
+            onClick={handleShare}
+            disabled={topics.filter((t) => t.status !== "not-found").length === 0}
+          >
+            <Share2Icon className="size-3.5" />
+            <span className="hidden sm:block">Share</span>
+          </Button>
+          <Button
+            variant="outline"
+            className="px-4"
+            size="sm"
             onClick={handleClear}
             disabled={topics.length === 0}
           >
@@ -83,11 +58,13 @@ export const QueuePanel = () => {
             variant="secondary"
             className="px-4"
             size="sm"
-            onClick={handleDownloadAll}
-            disabled={verifiedTopics.length === 0 || isDownloading}
+            onClick={downloadAll}
+            disabled={!canDownload || isDownloading}
           >
             <DownloadIcon className="size-3.5" />
-            <span className="hidden sm:block">Download All</span>
+            <span className="hidden sm:block">
+              {progress ? `${progress.current}/${progress.total}` : "Download All"}
+            </span>
           </Button>
         </div>
       </div>
