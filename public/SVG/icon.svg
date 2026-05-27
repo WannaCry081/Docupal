@@ -1,0 +1,16 @@
+<svg
+  width="24"
+  height="24"
+  viewBox="0 0 32 32"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+>
+  <rect width="32" height="32" rx="7" fill="#111812" />
+  <path
+    fill="#4ade80"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    d="M8 5 H14 C22 5 27 9.5 27 16 C27 22.5 22 27 14 27 H8 V5 Z M12 10 V22 H14 C18.5 22 22 19.5 22 16 C22 12.5 18.5 10 14 10 H12 Z"
+  />
+</svg>
