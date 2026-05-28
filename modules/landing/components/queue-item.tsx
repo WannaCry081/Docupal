@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
@@ -57,79 +56,77 @@ export const QueueItem = ({ sequence, topic }: QueueItemProps) => {
 
       {STATUS_CONFIG[topic.status]}
 
-      <TooltipProvider>
-        <div className="flex items-center gap-0.5 shrink-0">
-          {topic.status === "not-found" ? (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => retry(topic.id, topic.name)}
-                  className="size-9 p-0"
-                  aria-label={`Retry verification for ${topic.name}`}
-                >
-                  <RefreshCwIcon className="size-3.5" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Retry</TooltipContent>
-            </Tooltip>
-          ) : (
-            <>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    disabled={topic.status !== "verified"}
-                    onClick={handleCopyUrl}
-                    className="size-9 p-0"
-                    aria-label={`Copy URL for ${topic.name}`}
-                  >
-                    {copied ? (
-                      <CopyCheckIcon className="size-3.5 text-primary" />
-                    ) : (
-                      <CopyIcon className="size-3.5" />
-                    )}
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Copy URL</TooltipContent>
-              </Tooltip>
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    disabled={topic.status !== "verified"}
-                    onClick={handleDownload}
-                    className="size-9 p-0"
-                    aria-label={`Download ${topic.name}`}
-                  >
-                    <DownloadIcon className="size-3.5" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Download</TooltipContent>
-              </Tooltip>
-            </>
-          )}
-
+      <div className="flex items-center gap-0.5 shrink-0">
+        {topic.status === "not-found" ? (
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={handleRemove}
-                className="size-9 p-0 text-muted-foreground transition-colors hover:text-destructive hover:bg-destructive/10"
-                aria-label={`Remove ${topic.name}`}
+                onClick={() => retry(topic.id, topic.name)}
+                className="size-9 p-0"
+                aria-label={`Retry verification for ${topic.name}`}
               >
-                <TrashIcon className="size-3.5" />
+                <RefreshCwIcon className="size-3.5" />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Remove</TooltipContent>
+            <TooltipContent>Retry</TooltipContent>
           </Tooltip>
-        </div>
-      </TooltipProvider>
+        ) : (
+          <>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  disabled={topic.status !== "verified"}
+                  onClick={handleCopyUrl}
+                  className="size-9 p-0"
+                  aria-label={`Copy URL for ${topic.name}`}
+                >
+                  {copied ? (
+                    <CopyCheckIcon className="size-3.5 text-primary" />
+                  ) : (
+                    <CopyIcon className="size-3.5" />
+                  )}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Copy URL</TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  disabled={topic.status !== "verified"}
+                  onClick={handleDownload}
+                  className="size-9 p-0"
+                  aria-label={`Download ${topic.name}`}
+                >
+                  <DownloadIcon className="size-3.5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Download</TooltipContent>
+            </Tooltip>
+          </>
+        )}
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleRemove}
+              className="size-9 p-0 text-muted-foreground transition-colors hover:text-destructive hover:bg-destructive/10"
+              aria-label={`Remove ${topic.name}`}
+            >
+              <TrashIcon className="size-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Remove</TooltipContent>
+        </Tooltip>
+      </div>
     </div>
   );
 };
