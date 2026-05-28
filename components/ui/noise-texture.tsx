@@ -32,7 +32,7 @@ export interface NoiseTextureProps extends ComponentProps<"svg"> {
 export const NoiseTexture = ({
   className,
   frequency = 0.4,
-  octaves = 6,
+  octaves = 4,
   slope = 0.15,
   noiseOpacity = 0.6,
   ...props
@@ -41,8 +41,9 @@ export const NoiseTexture = ({
 
   return (
     <svg
+      aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute inset-0 z-0 size-full opacity-50 select-none dark:opacity-[0.75]",
+        "pointer-events-none fixed inset-0 z-0 size-full opacity-50 select-none dark:opacity-[0.75]",
         className
       )}
       xmlns="http://www.w3.org/2000/svg"
