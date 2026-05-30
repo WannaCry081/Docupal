@@ -29,9 +29,12 @@ export const QueuePanel = () => {
       <div className="flex justify-between items-center mb-6">
         <div className="inline-flex gap-2">
           <h2 className="text-lg font-medium">Queue</h2>
-          <Badge className="self-center">
-            {topics.length} {topics.length === 1 ? "Item" : "Items"}
-          </Badge>
+
+          {topics.length !== 0 ? (
+            <Badge className="self-center">
+              {topics.length} {topics.length === 1 ? "Item" : "Items"}
+            </Badge>
+          ) : null}
         </div>
         <div className="inline-flex gap-2">
           <Button
@@ -39,7 +42,9 @@ export const QueuePanel = () => {
             className="px-4"
             size="sm"
             onClick={handleShare}
-            disabled={topics.filter((t) => t.status !== "not-found").length === 0}
+            disabled={
+              topics.filter((t) => t.status !== "not-found").length === 0
+            }
           >
             <Share2Icon className="size-3.5" />
             <span className="hidden sm:block">Share</span>

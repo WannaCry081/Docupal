@@ -1,32 +1,34 @@
-import type { Metadata } from "next";
-import { Google_Sans, Roboto_Serif, Roboto_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Inter, Roboto_Mono } from "next/font/google";
 
 import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { LenisProvider } from "@/components/providers/lenis-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 
 import "./globals.css";
 
-const fontSans = Google_Sans({
+const fontSans = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
-});
-
-const fontSerif = Roboto_Serif({
-  subsets: ["latin"],
-  variable: "--font-serif",
+  display: "swap",
 });
 
 const fontMono = Roboto_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "DocuPal",
   description:
     "A small utility for grabbing tutorial PDFs from TutorialsPoint — with availability checks and a downloadable queue.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -37,7 +39,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} antialiased h-full`}
+      className={`${fontSans.variable} ${fontMono.variable} antialiased h-full`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
@@ -47,12 +49,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <LenisProvider>
-            <TooltipProvider>
-              {children}
-              <Toaster position="top-center" />
-            </TooltipProvider>
-          </LenisProvider>
+          <TooltipProvider>
+            {children}
+            <Toaster position="top-center" />
+          </TooltipProvider>
         </ThemeProvider>
       </body>
     </html>

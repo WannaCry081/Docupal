@@ -37,7 +37,7 @@
   --sidebar-accent-foreground: oklch(0.4335 0.0754 182.2315);
   --sidebar-border: oklch(0.9436 0.0051 228.8204);
   --sidebar-ring: oklch(0.7610 0.2015 149.7403);
-  --font-sans: 'Google Sans', 'Roboto', 'Inter', system-ui, sans-serif;
+  --font-sans: 'Inter', 'Roboto', system-ui, sans-serif;
   --font-serif: 'Roboto Serif', Georgia, serif;
   --font-mono: 'Roboto Mono', 'SFMono-Regular', monospace;
   --radius: 1rem;
