@@ -22,8 +22,6 @@ function buildHash(names: string[]): string {
 export function useQueueUrlSync() {
   const { topics, addTopic, updateTopic, removeTopic } = useTopicStore();
   const hasRestored = useRef(false);
-  // Track names we've already kicked off verification for during restore
-  const restoredNames = useRef<Set<string>>(new Set());
 
   // Restore from hash once on mount
   useEffect(() => {
@@ -38,7 +36,6 @@ export function useQueueUrlSync() {
     for (const name of hashTopics) {
       if (currentNames.has(name)) continue;
 
-      restoredNames.current.add(name);
       const id = crypto.randomUUID();
       addTopic({ id, name, status: "verifying" });
       toast.loading(`Verifying "${name}"…`, { id });
@@ -63,7 +60,6 @@ export function useQueueUrlSync() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Keep hash in sync with queue (active topics only)
   useEffect(() => {
     const activeNames = topics
       .filter((t) => t.status !== "not-found")
