@@ -49,7 +49,7 @@ Business logic lives in `modules/{feature}/`, not in pages or shared components.
 
 ### 3. Layered architecture with one-way dependency flow
 
-```
+```text
 app/  →  modules/  →  lib/  →  components/ui / types
 ```
 
@@ -77,7 +77,7 @@ Before making a component a client component: does it require browser APIs, even
 
 ## Project Structure
 
-```
+```text
 app/                        # App Router routes
   (groups)/                 # route groups — separate concerns without affecting URLs
   @modals/                  # parallel route slot for modal overlays
@@ -109,7 +109,7 @@ types/                      # shared TypeScript types
 
 Permitted directions only — reverse dependencies are forbidden:
 
-```
+```text
 app/              →  components/ | modules/ | lib/ | hooks/ | types/
 components/       →  lib/ | types/
 components/ui/    →  lib/utils.ts only
@@ -138,7 +138,7 @@ Use route groups `(group-name)/` to separate concerns without affecting the URL 
 
 The root layout receives a `modals` prop from the `@modals` parallel route slot. This enables intercepting routes to render overlay UIs without unmounting the background page.
 
-```
+```text
 app/
 ├── layout.tsx                        ← receives { children, modals }
 ├── @modals/
@@ -229,7 +229,7 @@ export const generateStaticParams = async () => {
 
 Every route that performs async work has a `loading.tsx` sibling. Loading states use purpose-built skeleton components that match the real content layout — never generic spinners at the page level.
 
-```
+```text
 products/[slug]/
 ├── page.tsx
 ├── loading.tsx    ← exports <ProductDetailLoading variant="page" />
@@ -242,7 +242,7 @@ Loading components accept a `variant` prop when they render in both modal and pa
 
 Client components handle exactly one of: form interactions, tabs, infinite scroll, optimistic mutations, or browser-API-dependent UI. Never use them as layout containers.
 
-```
+```text
 ServerPage (async)
   └── ServerDataFetch
         └── ClientInteractiveLeaf ('use client')
@@ -746,7 +746,7 @@ Flagged-off pages call `notFound()` rather than rendering a disabled state. Flag
 
 Every route segment that can fail has an `error.tsx` sibling. It must be a Client Component (`'use client'`) because it receives the `reset` callback from Next.js.
 
-```
+```text
 products/[slug]/
 ├── page.tsx
 ├── loading.tsx
@@ -1007,7 +1007,7 @@ const shouldRedirect = true;
 
 `kebab-case` for all file and folder names.
 
-```
+```text
 ✅ hooks/use-mobile.ts
 ✅ components/dialog-box.tsx
 ✅ utils/compute-day.ts
@@ -1019,7 +1019,7 @@ Exceptions (tool-mandated casing): `README.md`, `PULL_REQUEST_TEMPLATE.md`, `CHA
 
 File-to-export mapping — kebab-case file, PascalCase named export:
 
-```
+```text
 employer-scorecard-loading.tsx  →  export const EmployerScorecardLoading = ...
 dialog-box.tsx                  →  export const DialogBox = ...
 ```
@@ -1284,7 +1284,7 @@ Prefer clear naming over comments — a well-named function rarely needs explana
 | `docs/`  | Documentation only              |
 | `test/`  | Tests only                      |
 
-```
+```text
 ✅ feat/add-login-modal
 ✅ fix/header-overflow-bug
 ✅ chore/upgrade-tailwind
@@ -1293,7 +1293,7 @@ Prefer clear naming over comments — a well-named function rarely needs explana
 
 **Commit messages — Conventional Commits:** `<type>: <short imperative description>`
 
-```
+```text
 ✅ feat: add employer scorecard loading skeleton
 ✅ fix: resolve header overflow on mobile
 ✅ chore: upgrade tailwind to v4.1
@@ -1311,7 +1311,7 @@ Common types: `feat`, `fix`, `chore`, `docs`, `test`, `refactor`, `style`, `perf
 
 Components and utilities used only by a single route live in `_components/` and `_utils/` next to the page file. The leading underscore signals "private to this route subtree" — nothing outside it imports from here.
 
-```
+```text
 app/
 └── products/
     └── [slug]/
