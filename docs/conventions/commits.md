@@ -2,7 +2,7 @@
 
 We follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/):
 
-```
+```text
 <type>: <short summary in present tense, lowercase, no period>
 ```
 
@@ -20,7 +20,7 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 
 ## Examples
 
-```
+```text
 feat: add dark mode support
 fix: handle empty input on login form
 docs: update installation steps

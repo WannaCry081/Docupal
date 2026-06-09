@@ -12,10 +12,12 @@ We follow [Semantic Versioning](https://semver.org/): `MAJOR.MINOR.PATCH`
 
 1. Ensure `main` is in a releasable state.
 2. Push a tag matching the version:
+
    ```bash
    git tag v1.2.3
    git push origin v1.2.3
    ```
+
 3. CI publishes the GitHub Release automatically.
 
 ## Pre-releases

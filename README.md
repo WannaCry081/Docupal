@@ -42,7 +42,7 @@ pnpm install
 pnpm dev
 ```
 
-2. Open [http://localhost:3000](http://localhost:3000) in your browser and start downloading topics.
+1. Open [http://localhost:3000](http://localhost:3000) in your browser and start downloading topics.
 
 ```bash
 pnpm build
