@@ -26,7 +26,7 @@ export default function NotFound() {
             {/* Heading */}
             <div className="space-y-2">
               <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-                The page you're looking for doesn't exist. It might have been
+                The page you&apos;re looking for doesn&apos;t exist. It might have been
                 moved, deleted, or never existed in the first place.
               </p>
             </div>
