@@ -19,11 +19,11 @@ Thanks for your interest in contributing! Here's how to get started.
 
 Use a short prefix that describes the type of change:
 
-| Prefix | When to use |
-|---|---|
-| `feat/` | New feature |
-| `fix/` | Bug fix |
-| `docs/` | Documentation only |
+| Prefix   | When to use                   |
+| -------- | ----------------------------- |
+| `feat/`  | New feature                   |
+| `fix/`   | Bug fix                       |
+| `docs/`  | Documentation only            |
 | `chore/` | Maintenance, tooling, cleanup |
 
 ## Commit messages
@@ -37,33 +37,14 @@ docs: update installation steps
 chore: upgrade dependencies
 ```
 
-Not strictly enforced, but it keeps the history readable and enables automatic release notes.
-
-## Pull request labels
-
-When opening a PR, add a label that matches your change type.
-These labels are used by [Release Drafter](https://github.com/release-drafter/release-drafter) to automatically generate release notes and calculate the next version number:
-
-| Label | What it means | Version bump |
-|---|---|---|
-| `feature` or `enhancement` | New feature | minor (e.g. 1.0.0 → 1.1.0) |
-| `fix`, `bug`, or `bugfix` | Bug fix | patch (e.g. 1.0.0 → 1.0.1) |
-| `chore` or `maintenance` | Cleanup, refactor | patch |
-| `docs` or `documentation` | Docs only | patch |
-| `major` or `breaking-change` | Breaking change | major (e.g. 1.0.0 → 2.0.0) |
+Commit types drive automatic versioning via release-please — `feat:` bumps minor, `feat!:` (or `BREAKING CHANGE:` in the footer) bumps major, and everything else bumps patch.
 
 ## Releasing a new version
 
-When you're ready to ship a release:
+Releases are fully automated via [release-please](https://github.com/googleapis/release-please-action) — **do not push tags manually**.
 
-1. Push a tag matching `v1.2.3`:
-
-   ```bash
-   git tag v1.0.0
-   git push origin v1.0.0
-   ```
-
-2. GitHub Actions will automatically publish the GitHub Release from the draft that Release Drafter maintains.
+1. Merge commits to `main` using conventional commit prefixes. release-please tracks them and opens (or updates) a Release PR with the bumped version and changelog.
+2. When the team is ready to ship, merge the Release PR. CI creates the tag and GitHub Release automatically.
 
 ## Versioning
 
