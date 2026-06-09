@@ -30,7 +30,7 @@ Use a short prefix that describes the type of change:
 
 We recommend [Conventional Commits](https://www.conventionalcommits.org/):
 
-```
+```text
 feat: add dark mode support
 fix: handle empty input correctly
 docs: update installation steps
@@ -57,15 +57,18 @@ These labels are used by [Release Drafter](https://github.com/release-drafter/re
 When you're ready to ship a release:
 
 1. Push a tag matching `v1.2.3`:
+
    ```bash
    git tag v1.0.0
    git push origin v1.0.0
    ```
+
 2. GitHub Actions will automatically publish the GitHub Release from the draft that Release Drafter maintains.
 
 ## Versioning
 
 This project follows [Semantic Versioning](https://semver.org/):
+
 - **Major** version → breaking change
 - **Minor** version → new feature, backward compatible
 - **Patch** version → bug fix or small improvement
