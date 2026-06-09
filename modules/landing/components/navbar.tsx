@@ -5,7 +5,7 @@ import { GITHUB_REPOSITORY_URL } from "@/lib/constants/site-config";
 
 export const NavBar = () => {
   return (
-    <header className="mx-auto max-w-3xl px-5 py-6 sm:py-8 sm:px-10">
+    <header className="mx-auto max-w-3xl px-5 py-6 sm:py-8 sm:px-10 w-full">
       <nav className="flex items-center justify-between">
         <Link
           href="/"

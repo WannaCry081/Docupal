@@ -1,6 +1,6 @@
 # Docupal
 
-![Docupal](./public/docupal-screenshot.png)
+![Docupal](./public/PNG/docupal-screenshot.png)
 
 A simple web app for downloading TutorialsPoint PDFs — purpose-built to feed structured learning material into [NotebookLM](https://notebooklm.google.com/) and similar AI-powered study tools.
 
