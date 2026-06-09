@@ -11,7 +11,7 @@ export const Footer = async () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="mx-auto max-w-3xl mt-8 py-8 sm:py-10 border-t">
+    <footer className="mx-auto max-w-3xl mt-8 py-8 sm:py-10 border-t w-full">
       <div className="px-5 sm:px-10 flex items-center justify-between gap-4">
         <div className="text-sm text-muted-foreground">
           © {currentYear} Docupal. All rights reserved.
