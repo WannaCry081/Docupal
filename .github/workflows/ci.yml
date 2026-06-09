@@ -39,7 +39,6 @@ jobs:
             revert
           requireScope: false
 
-
   build-and-test:
     name: Build and Test (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
@@ -58,8 +57,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
 
-      - name: Enable Corepack for pnpm
-        run: corepack enable
+      - name: Enable and activate pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.12.2 --activate
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
